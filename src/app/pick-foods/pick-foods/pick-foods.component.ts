@@ -38,6 +38,8 @@ export class PickFoodsComponent {
 
   filteredFoods!: Observable<any[]>;
 
+  foodsArray2: any = []
+
   
 
   constructor(
@@ -47,6 +49,37 @@ export class PickFoodsComponent {
   
 
   
+  // ngOnInit(): void {
+  //   this.filteredFoods = this.foodsForm.get('food_name')!.valueChanges.pipe(
+  //     debounceTime(300), // Wait 300ms after the last keystroke before making a request
+  //     distinctUntilChanged(), // Only make a request if the value changed
+  //     switchMap(value => {
+  //       if (value) {
+  //         return this.searchFoodsService.searchFoods(value).pipe(
+  //           catchError(error => {
+  //             console.error(error);
+  //             return of([]); // Return an empty array on error
+  //           }),
+  //           switchMap(response => {
+  //             let foodsArray = [];
+  //             for (let key in response) {
+  //               if (response.hasOwnProperty(key)) {
+  //                 foodsArray.push({ key: key, value: response[key] });
+  //               }
+  //             }
+  //             console.log(response)
+  //             console.log(foodsArray)
+  //             console.log(this.filteredFoods)
+  //             return of(foodsArray);
+  //           })
+  //         );
+  //       } else {
+  //         return of([]); // Return an empty array if the input is empty
+  //       }
+  //     })
+  //   );
+  // }
+
   ngOnInit(): void {
     this.filteredFoods = this.foodsForm.get('food_name')!.valueChanges.pipe(
       debounceTime(300), // Wait 300ms after the last keystroke before making a request
@@ -60,12 +93,10 @@ export class PickFoodsComponent {
             }),
             switchMap(response => {
               let foodsArray = [];
-              for (let key in response) {
-                if (response.hasOwnProperty(key)) {
-                  foodsArray.push({ key: key, value: response[key] });
-                }
-              }
-              return of(foodsArray);
+              
+              this.foodsArray2 = response
+              console.log(this.foodsArray2)
+              return of(this.foodsArray2);
             })
           );
         } else {
@@ -95,6 +126,12 @@ export class PickFoodsComponent {
 
 
 testi() {
+
+}
+
+testi2() {
+
+
 
 }
 

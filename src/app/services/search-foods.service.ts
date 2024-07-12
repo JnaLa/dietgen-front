@@ -12,7 +12,6 @@ export class SearchFoodsService {
   ) { }
 
   searchFoods(query: any): Observable<any> {
-    console.log(query)
     let body = {
       data: query
     }
