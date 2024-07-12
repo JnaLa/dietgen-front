@@ -3,11 +3,11 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { Observable, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, Observable, of, switchMap } from 'rxjs';
 import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
+import { SearchFoodsService } from '../../services/search-foods.service';
 
 @Component({
   selector: 'app-pick-foods',
@@ -17,7 +17,6 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatSelectModule,
     CommonModule,
-    HttpClientModule,
     MatAutocompleteModule,
     MatOptionModule,
     MatInputModule
@@ -32,8 +31,8 @@ export class PickFoodsComponent {
 
 
   foodsForm = new FormGroup({
-    food_id: new FormControl(3),
-    food_name: new FormControl('leipä'),
+    food_id: new FormControl(),
+    food_name: new FormControl(),
     food_amount: new FormControl()
   })
 
@@ -42,21 +41,39 @@ export class PickFoodsComponent {
   
 
   constructor(
-    private http: HttpClient,
+    private searchFoodsService: SearchFoodsService
   ) {}
 
   
 
   
-  ngOnInit() {
-    this.filteredFoods
+  ngOnInit(): void {
+    this.filteredFoods = this.foodsForm.get('food_name')!.valueChanges.pipe(
+      debounceTime(300), // Wait 300ms after the last keystroke before making a request
+      distinctUntilChanged(), // Only make a request if the value changed
+      switchMap(value => {
+        if (value) {
+          return this.searchFoodsService.searchFoods(value).pipe(
+            catchError(error => {
+              console.error(error);
+              return of([]); // Return an empty array on error
+            }),
+            switchMap(response => {
+              let foodsArray = [];
+              for (let key in response) {
+                if (response.hasOwnProperty(key)) {
+                  foodsArray.push({ key: key, value: response[key] });
+                }
+              }
+              return of(foodsArray);
+            })
+          );
+        } else {
+          return of([]); // Return an empty array if the input is empty
+        }
+      })
+    );
   }
-
-
-
-
-
-
 
   fetchMatchingFoods() {
 
@@ -68,18 +85,18 @@ export class PickFoodsComponent {
 
 
 
-  testi() {
-    let name = "chorizo"
-    let id = 3
-    let parametrit = {
-      name: name,
-      id: id
-    }
 
 
-    this.http.post<any>('http://127.0.0.1:5000/search', parametrit).subscribe(r => {
-      console.log(r)
-    })
-  }
+
+
+
+
+
+
+
+testi() {
+
+}
+
 
 }
