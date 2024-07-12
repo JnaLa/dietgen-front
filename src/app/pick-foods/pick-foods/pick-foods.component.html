@@ -1,0 +1,28 @@
+<div class="container">
+  <form [formGroup]="foodsForm" (ngSubmit)="testi()">
+    <div class="group-container">
+      <h3 class="header-3">Ruoka</h3>
+      <div class="row justify-content-md-center"></div>
+
+      <mat-form-field class="col" appearance="outline">
+        <mat-label for="food_name">Search Food</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="food_name"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let food of filteredFoods | async"
+            [value]="food.name"
+          >
+            {{ food.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <button class="btn btn-primary">asd</button>
+    </div>
+  </form>
+</div>
