@@ -29,7 +29,6 @@ import { SearchFoodsService } from '../../services/search-foods.service';
 
 export class PickFoodsComponent {
 
-
   foodsForm = new FormGroup({
     food_id: new FormControl(),
     food_name: new FormControl(),
@@ -37,48 +36,18 @@ export class PickFoodsComponent {
   })
 
   filteredFoods!: Observable<any[]>;
+  foodsArray: any = []
 
-  foodsArray2: any = []
 
-  
+  dietFoodList: any = []
 
   constructor(
     private searchFoodsService: SearchFoodsService
   ) {}
 
-  
 
-  
-  // ngOnInit(): void {
-  //   this.filteredFoods = this.foodsForm.get('food_name')!.valueChanges.pipe(
-  //     debounceTime(300), // Wait 300ms after the last keystroke before making a request
-  //     distinctUntilChanged(), // Only make a request if the value changed
-  //     switchMap(value => {
-  //       if (value) {
-  //         return this.searchFoodsService.searchFoods(value).pipe(
-  //           catchError(error => {
-  //             console.error(error);
-  //             return of([]); // Return an empty array on error
-  //           }),
-  //           switchMap(response => {
-  //             let foodsArray = [];
-  //             for (let key in response) {
-  //               if (response.hasOwnProperty(key)) {
-  //                 foodsArray.push({ key: key, value: response[key] });
-  //               }
-  //             }
-  //             console.log(response)
-  //             console.log(foodsArray)
-  //             console.log(this.filteredFoods)
-  //             return of(foodsArray);
-  //           })
-  //         );
-  //       } else {
-  //         return of([]); // Return an empty array if the input is empty
-  //       }
-  //     })
-  //   );
-  // }
+
+
 
   ngOnInit(): void {
     this.filteredFoods = this.foodsForm.get('food_name')!.valueChanges.pipe(
@@ -91,12 +60,9 @@ export class PickFoodsComponent {
               console.error(error);
               return of([]); // Return an empty array on error
             }),
-            switchMap(response => {
-              let foodsArray = [];
-              
-              this.foodsArray2 = response
-              console.log(this.foodsArray2)
-              return of(this.foodsArray2);
+            switchMap(response => {                
+              this.foodsArray = response
+              return of(this.foodsArray);
             })
           );
         } else {
@@ -106,7 +72,34 @@ export class PickFoodsComponent {
     );
   }
 
-  fetchMatchingFoods() {
+
+  pickFood(food_id: number) {
+    this.foodsForm.get('food_name')?.setValue('')
+    this.searchFoodsService.fetchFoodWithId(food_id).subscribe(r => {
+
+      // this.dietFoodList.push({
+      //   name: r.name.fi,
+      //   amount: r.amount,
+      //   energy: r.energy,
+      //   energyKcal: r.energyKcal,
+      //   carbohydrate: r.carbohydrate,
+      //   fat: r.fat,
+      //   saturatedFat: r.saturatedFat,
+      //   fiber: r.fiber,
+      //   protein: r.protein,
+      //   salt: r.salt,
+      //   sugar: r.sugar,
+      // })
+
+      this.dietFoodList.push(r)
+
+      console.log(this.dietFoodList)
+
+    })
+  }
+
+
+  saveFoods() {
 
   }
 
@@ -114,26 +107,6 @@ export class PickFoodsComponent {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-testi() {
-
-}
-
-testi2() {
-
-
-
-}
 
 
 }

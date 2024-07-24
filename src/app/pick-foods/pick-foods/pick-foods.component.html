@@ -1,29 +1,64 @@
-<div class="container">
-  <form [formGroup]="foodsForm" (ngSubmit)="testi()">
+<div class="container d-flex justify-content-center wh-100">
+  <form [formGroup]="foodsForm" (ngSubmit)="saveFoods()">
     <div class="group-container">
-      <h3 class="header-3">Ruoka</h3>
-      <div class="row justify-content-md-center"></div>
+      <h3 class="header-3">Pick food</h3>
+      <div class="row justify-content-md-center">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label for="food_name">Search Food</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="food_name"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let food of filteredFoods | async"
+              [value]="food.name"
+              (click)="pickFood(food.id)"
+            >
+              {{ food.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <button class="btn btn-primary w-100 mt-1">asd</button>
+    </div>
 
-      <mat-form-field class="col" appearance="outline">
-        <mat-label for="food_name">Search Food</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="food_name"
-          [matAutocomplete]="auto"
-        />
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option
-            *ngFor="let food of filteredFoods | async"
-            [value]="food.name"
-          >
-            {{ food.name }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-      <button class="btn btn-primary">asd</button>
-      <button class="btn btn-primary" (click)="testi2()">asd2</button>
+    <div class="table-container">
+      <h3 class="header-3">Picked foods / 100 grams</h3>
+      <table class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th class="text-center">Food Name</th>
+            <th class="text-center">Energy(Kcal)</th>
+            <th class="text-center">Carbs</th>
+            <th class="text-center">Sugar</th>
+            <th class="text-center">Fat</th>
+            <th class="text-center">Fat(Saturated)</th>
+            <th class="text-center">Protein</th>
+            <!-- <th class="text-center">Salt</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of dietFoodList; let i = index">
+            <td class="text-center">{{ data.name.fi }}</td>
+            <td class="text-center">
+              {{ data.energyKcal | number : "1.2-2" }}
+            </td>
+            <td class="text-center">
+              {{ data.carbohydrate | number : "1.2-2" }}
+            </td>
+            <td class="text-center">{{ data.sugar | number : "1.2-2" }}</td>
+            <td class="text-center">{{ data.fat | number : "1.2-2" }}</td>
+            <td class="text-center">
+              {{ data.saturatedFat | number : "1.2-2" }}
+            </td>
+            <td class="text-center">{{ data.protein | number : "1.2-2" }}</td>
+            <!-- <td class="text-center">{{ data.salt }}</td> -->
+          </tr>
+        </tbody>
+      </table>
     </div>
   </form>
 </div>

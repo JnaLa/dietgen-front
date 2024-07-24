@@ -15,7 +15,11 @@ export class SearchFoodsService {
     let body = {
       data: query
     }
-    return this.http.post<any>('http://127.0.0.1:5000/fineli/testi', body).pipe(map((response: any) => response));
+    return this.http.post<any>('http://127.0.0.1:5000/fineli/search', body).pipe(map((response: any) => response));
   }
 
+
+  fetchFoodWithId(food_id: number): Observable<any> {
+    return this.http.get<any>('http://127.0.0.1:5000/fineli/food/' + food_id).pipe(map((response: any) => response));
+  }
 }
