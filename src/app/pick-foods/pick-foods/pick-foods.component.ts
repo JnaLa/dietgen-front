@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
@@ -30,16 +30,36 @@ import { SearchFoodsService } from '../../services/search-foods.service';
 export class PickFoodsComponent {
 
   foodsForm = new FormGroup({
+    // Foods 
     food_id: new FormControl(),
     food_name: new FormControl(),
-    food_amount: new FormControl()
+    food_amount: new FormControl(),
+
+    // Meals
+    meal_type: new FormControl(),
+
+    // Selected meals
+    meal_selections: new FormArray([]), // Dynamic
+
+    test: new FormControl()
+
   })
 
   filteredFoods!: Observable<any[]>;
   foodsArray: any = []
-
-
   dietFoodList: any = []
+
+  meal_types: any = [
+    {"id": 0, "name": "Aamiainen"},
+    {"id": 1, "name": "Brunssi"},
+    {"id": 2, "name": "Lounas"},
+    {"id": 3, "name": "Välipala"},
+    {"id": 4, "name": "Päivällinen"},
+    {"id": 5, "name": "Illallinen"},
+    {"id": 6, "name": "Iltapala"},
+    {"id": 7, "name": "Juoma"},
+    {"id": 8, "name": "Muu"}
+  ]
 
   constructor(
     private searchFoodsService: SearchFoodsService
@@ -100,6 +120,11 @@ export class PickFoodsComponent {
 
 
   saveFoods() {
+
+  }
+
+  selectMeal(meal_selected: any) {
+
 
   }
 
