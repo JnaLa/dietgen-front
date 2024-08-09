@@ -50,15 +50,14 @@ export class PickFoodsComponent {
   dietFoodList: any = []
 
   meal_types: any = [
-    {"id": 0, "name": "Aamiainen"},
-    {"id": 1, "name": "Brunssi"},
-    {"id": 2, "name": "Lounas"},
-    {"id": 3, "name": "Välipala"},
-    {"id": 4, "name": "Päivällinen"},
-    {"id": 5, "name": "Illallinen"},
-    {"id": 6, "name": "Iltapala"},
-    {"id": 7, "name": "Juoma"},
-    {"id": 8, "name": "Muu"}
+    {"id": 0, "name": "Breakfast"},
+    {"id": 1, "name": "Brunch"},
+    {"id": 2, "name": "Lunch"},
+    {"id": 3, "name": "Snack"},
+    {"id": 4, "name": "Dinner"},
+    {"id": 5, "name": "Supper"},
+    {"id": 6, "name": "Drink"},
+    {"id": 7, "name": "Else"},
   ]
 
   constructor(
@@ -84,10 +83,12 @@ export class PickFoodsComponent {
               this.foodsArray = response
               return of(this.foodsArray);
             })
+            
           );
         } else {
           return of([]); // Return an empty array if the input is empty
         }
+        
       })
     );
   }
@@ -124,8 +125,32 @@ export class PickFoodsComponent {
   }
 
   selectMeal(meal_selected: any) {
+    const meal_selections = this.foodsForm.get('meal_selections') as FormArray;
+
+    //Check if the meal is already selected
+    const existingIndex = meal_selections.controls.findIndex(
+      (ctrl) => ctrl.get('meal_id')?.value === meal_selected.id
+    );
+
+    if (existingIndex === -1) {
+      // Add new meal field if not already selected
+      meal_selections.push(
+        new FormGroup({
+          meal_id: new FormControl(meal_selected.id),
+          meal_name: new FormControl(meal_selected.name)
+        })
+      )
+    }
+
+    console.log(meal_selections.value);
+  }
 
 
+  hasMealType(meal_name: string): boolean {
+    const meal_selections = this.foodsForm.get('meal_selections') as FormArray;
+    return meal_selections.controls.some(
+      (control) => control.get('meal_name')?.value === meal_name
+    )
   }
 
 
