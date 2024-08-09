@@ -1,0 +1,9 @@
+.icon {
+    float: right;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.ng-fa-icon.icon:hover {
+    color: pink;
+}

@@ -8,6 +8,9 @@ import { catchError, debounceTime, distinctUntilChanged, Observable, of, switchM
 import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { SearchFoodsService } from '../../services/search-foods.service';
+import { FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-pick-foods',
@@ -19,7 +22,8 @@ import { SearchFoodsService } from '../../services/search-foods.service';
     CommonModule,
     MatAutocompleteModule,
     MatOptionModule,
-    MatInputModule
+    MatInputModule,
+    FontAwesomeModule
     
   ],
   templateUrl: './pick-foods.component.html',
@@ -28,6 +32,8 @@ import { SearchFoodsService } from '../../services/search-foods.service';
 
 
 export class PickFoodsComponent {
+
+  faXmark = faXmark
 
   foodsForm = new FormGroup({
     // Foods 
@@ -151,6 +157,17 @@ export class PickFoodsComponent {
     return meal_selections.controls.some(
       (control) => control.get('meal_name')?.value === meal_name
     )
+  }
+
+  removeMeal(meal_name: string) {
+    const meal_selections = this.foodsForm.get('meal_selections') as FormArray;
+    const index = meal_selections.controls.findIndex(
+      (control) => control.get('meal_name')?.value === meal_name
+    );
+
+    if (index !== -1) {
+      meal_selections.removeAt(index);
+    }
   }
 
 

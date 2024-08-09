@@ -31,6 +31,33 @@
             formControlName="test"
           />
         </mat-form-field>
+        <fa-icon
+          class="icon"
+          (click)="removeMeal('Breakfast')"
+          [icon]="faXmark"
+          size="2x"
+        >
+        </fa-icon>
+      </div>
+
+      <div class="row justify-content-md-center" *ngIf="hasMealType('Brunch')">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Test</mat-label>
+          <input
+            matInput
+            placeholder="test"
+            type="text"
+            name="test"
+            formControlName="test"
+          />
+        </mat-form-field>
+        <fa-icon
+          class="icon"
+          (click)="removeMeal('Brunch')"
+          [icon]="faXmark"
+          size="2x"
+        >
+        </fa-icon>
       </div>
 
       <div class="row justify-content-md-center" *ngIf="hasMealType('Lunch')">
@@ -44,6 +71,14 @@
             formControlName="test"
           />
         </mat-form-field>
+
+        <fa-icon
+          class="icon"
+          (click)="removeMeal('Lunch')"
+          [icon]="faXmark"
+          size="2x"
+        >
+        </fa-icon>
       </div>
     </div>
 
