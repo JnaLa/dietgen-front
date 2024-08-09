@@ -1,0 +1,14 @@
+<form [formGroup]="dietForm" (ngSubmit)="onSubmit()">
+    <div formArrayName="meals">
+      <div *ngFor="let meal of meals.controls; let i = index" [formGroupName]="i">
+        <label for="mealName">Meal:</label>
+        <input id="mealName" formControlName="name">
+        <div *ngIf="meal.get('name')?.invalid && meal.get('name')?.touched">
+          Meal name is required
+        </div>
+        <button type="button" (click)="removeMeal(i)">Remove</button>
+      </div>
+    </div>
+    <button type="button" (click)="addMeal()">Add Meal</button>
+    <button type="submit" [disabled]="dietForm.invalid">Submit</button>
+  </form>
