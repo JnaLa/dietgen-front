@@ -1,14 +1,45 @@
 <form [formGroup]="dietForm" (ngSubmit)="onSubmit()">
-    <div formArrayName="meals">
-      <div *ngFor="let meal of meals.controls; let i = index" [formGroupName]="i">
-        <label for="mealName">Meal:</label>
-        <input id="mealName" formControlName="name">
-        <div *ngIf="meal.get('name')?.invalid && meal.get('name')?.touched">
-          Meal name is required
+  <div formArrayName="meals">
+    <div *ngFor="let meal of meals.controls; let i = index" [formGroupName]="i">
+      <div class="row justify-content-md-center">
+        <div class="col">
+          <label for="meal-name-{{ i }}">Meal Name</label>
+          <input
+            id="meal-name-{{ i }}"
+            placeholder="Meal Name"
+            formControlName="name"
+          />
         </div>
-        <button type="button" (click)="removeMeal(i)">Remove</button>
       </div>
+      <div class="row justify-content-md-center">
+        <div class="col">
+          <label for="food-search-{{ i }}">Search foods</label>
+          <input
+            id="food-search-{{ i }}"
+            placeholder="Search foods"
+            type="text"
+            formControlName="food_search"
+            (keyup)="onFoodSearch($event, i)"
+          />
+        </div>
+      </div>
+      <div *ngIf="searchResults.length > 0">
+        <ul>
+          <li *ngFor="let food of searchResults" (click)="selectFood(food, i)">
+            {{ food.name }}
+          </li>
+        </ul>
+      </div>
+      <div formArrayName="selected_foods">
+        <div *ngFor="let food of meal.get('selected_food').controls; let j = index">
+          <p>Selected Food: {{ food.value.name }}
+          <button type="button" (click)="removeSelectedFood(i, j)">Remove</button>
+        </p>
+        </div>
+      </div>
+      <button (click)="removeMeal(i)" aria-label="Remove meal">Remove</button>
     </div>
-    <button type="button" (click)="addMeal()">Add Meal</button>
-    <button type="submit" [disabled]="dietForm.invalid">Submit</button>
-  </form>
+  </div>
+  <button (click)="addMeal()">Add Meal</button>
+  <button (click)="onSubmit()">Submit</button>
+</form>
