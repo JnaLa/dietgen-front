@@ -1,45 +1,72 @@
 <form [formGroup]="dietForm" (ngSubmit)="onSubmit()">
   <div formArrayName="meals">
-    <div *ngFor="let meal of meals.controls; let i = index" [formGroupName]="i">
-      <div class="row justify-content-md-center">
-        <div class="col">
-          <label for="meal-name-{{ i }}">Meal Name</label>
-          <input
-            id="meal-name-{{ i }}"
-            placeholder="Meal Name"
-            formControlName="name"
-          />
-        </div>
+    <div *ngFor="let meal of meals.controls; let i = index" [formGroupName]="i" class="meal-container">
+      <div class="meal-header">
+        <label for="meal-name-{{ i }}"></label>
+        <input
+          id="meal-name-{{ i }}"
+          placeholder="Meal Name"
+          formControlName="name"
+          class="input-field"
+        />
+        <button type="button" (click)="removeMeal(i)" class="remove-button" aria-label="Remove meal">
+          Remove
+        </button>
       </div>
-      <div class="row justify-content-md-center">
-        <div class="col">
-          <label for="food-search-{{ i }}">Search foods</label>
-          <input
-            id="food-search-{{ i }}"
-            placeholder="Search foods"
-            type="text"
-            formControlName="food_search"
-            (keyup)="onFoodSearch($event, i)"
-          />
-        </div>
+      <div class="food-search">
+        <label for="food-search-{{ i }}">Search foods</label>
+        <input
+          id="food-search-{{ i }}"
+          placeholder="Search foods"
+          type="text"
+          formControlName="food_search"
+          (keyup)="onFoodSearch($event, i)"
+          class="input-field"
+        />
       </div>
-      <div *ngIf="searchResults.length > 0">
+      <div *ngIf="meal.get('searchResults').value.length > 0" class="search-results">
         <ul>
-          <li *ngFor="let food of searchResults" (click)="selectFood(food, i)">
+          <li
+            *ngFor="let food of meal.get('searchResults').value"
+            (click)="selectFood(food, i)"
+            class="search-result-item"
+          >
             {{ food.name }}
           </li>
         </ul>
       </div>
-      <div formArrayName="selected_foods">
+      <div formArrayName="selected_foods" class="selected-foods">
         <div *ngFor="let food of meal.get('selected_food').controls; let j = index">
-          <p>Selected Food: {{ food.value.name }}
-          <button type="button" (click)="removeSelectedFood(i, j)">Remove</button>
-        </p>
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Energy</th>
+                <th>Protein</th>
+                <th>Fat</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ food.value.name }}</td>
+                <td>{{ food.value.nutrients.energy }}</td>
+                <td>{{ food.value.nutrients.protein }}</td>
+                <td>{{ food.value.nutrients.fat }}</td>
+                <td>
+                  <button type="button" (click)="removeSelectedFood(i, j)" class="remove-button">
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <button (click)="removeMeal(i)" aria-label="Remove meal">Remove</button>
     </div>
   </div>
-  <button (click)="addMeal()">Add Meal</button>
-  <button (click)="onSubmit()">Submit</button>
+  <div class="form-actions">
+    <button type="button" (click)="addMeal()" class="action-button">Add Meal</button>
+    <button type="submit" class="action-button">Submit</button>
+  </div>
 </form>
