@@ -43,19 +43,13 @@ export class PickFoodsComponent {
 
     // Meals
     meal_type: new FormControl(),
-
-    // Selected meals
-    meal_selections: new FormArray([]), // Dynamic
-
-    foods_per_meal: new FormArray([]),
-
     test: new FormControl()
 
   })
 
   filteredFoods!: Observable<any[]>;
-  foodsArray: any = []
-  dietFoodList: any = []
+  foodsArray: any = [] // All matching foods
+  dietFoodList: any = []  // Displayed on table
 
 
   meal_types: any = [
@@ -75,21 +69,10 @@ export class PickFoodsComponent {
 
 
   ngOnInit(): void {
-    this.initializeMealSelections();
     this.filterFoodsFromInput();
   }
 
-
-  // Initialize FormArray with FormGroup instances
-  initializeMealSelections() {
-    const mealSelectionsArray = this.meal_types.map((meal: any) =>
-      new FormGroup({
-        meal_id: new FormControl(meal.id),
-        meal_name: new FormControl(meal.name),
-      })
-    );
-    this.foodsForm.setControl('meal_selections', new FormArray(mealSelectionsArray));
-
+  test() {
 
   }
 
@@ -121,100 +104,19 @@ export class PickFoodsComponent {
   pickFood(food_id: number) {
     this.foodsForm.get('food_name')?.setValue('')
     this.searchFoodsService.fetchFoodWithId(food_id).subscribe(r => {
-
-      // this.dietFoodList.push({
-      //   name: r.name.fi,
-      //   amount: r.amount,
-      //   energy: r.energy,
-      //   energyKcal: r.energyKcal,
-      //   carbohydrate: r.carbohydrate,
-      //   fat: r.fat,
-      //   saturatedFat: r.saturatedFat,
-      //   fiber: r.fiber,
-      //   protein: r.protein,
-      //   salt: r.salt,
-      //   sugar: r.sugar,
-      // })
-
       this.dietFoodList.push(r)
-
-      console.log(this.dietFoodList)
-
     })
   }
 
 
-  saveFoods() {
+
+  selectMeal() {
 
   }
 
-  selectMeal(meal_selected: any) {
-    const meal_selections = this.foodsForm.get('meal_selections') as FormArray;
+  removeMealFromList() {
 
-    //Check if the meal is already selected
-    const existingIndex = meal_selections.controls.findIndex(
-      (ctrl) => ctrl.get('meal_id')?.value === meal_selected.id
-    );
-
-    if (existingIndex === -1) {
-      // Add new meal field if not already selected
-      meal_selections.push(
-        new FormGroup({
-          meal_id: new FormControl(meal_selected.id),
-          meal_name: new FormControl(meal_selected.name)
-        })
-      )
-    }
-
-    console.log(meal_selections.value);
   }
-
-
-  hasMealType(meal_name: string): boolean {
-    const meal_selections = this.foodsForm.get('meal_selections') as FormArray;
-    return meal_selections.controls.some(
-      (control) => control.get('meal_name')?.value === meal_name
-    )
-  }
-
-  removeMeal(meal_name: string) {
-    const meal_selections = this.foodsForm.get('meal_selections') as FormArray;
-    const index = meal_selections.controls.findIndex(
-      (control) => control.get('meal_name')?.value === meal_name
-    );
-
-    if (index !== -1) {
-      meal_selections.removeAt(index);
-    }
-  }
-
-  onFoodSearch(event: Event, index: number) {
-    const input = (event.target as HTMLInputElement).value;
-    const meal_selections = this.foodsForm.get('meal_selections') as FormArray;
-    const currentMeal = meal_selections.at(index) as FormGroup;
-
-    // Perform a food search using the service
-    if (input) {
-      this.searchFoodsService.searchFoods(input).pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        catchError(error => {
-          console.error('Error fetching foods:', error);
-          return of([]);
-        })
-      ).subscribe(results => {
-        currentMeal.get('foods')?.setValue(results);
-        console.log('Search results for meal', currentMeal.get('meal_name')?.value, ':', results);
-      });
-    }
-  }
-
-
-
-
-
-
-
 
 
 }

@@ -1,5 +1,5 @@
 <!-- <div class="container d-flex justify-content-center wh-100 mt-5">
-  <form [formGroup]="foodsForm" (ngSubmit)="saveFoods()">
+  <form [formGroup]="foodsForm" (ngSubmit)="test()">
     <div class="group-container">
       <div class="row justify-content-md-center">
         <mat-form-field class="col" appearance="outline">
@@ -154,7 +154,7 @@
 </div> -->
 
 <div class="container d-flex justify-content-center wh-100 mt-5">
-  <form [formGroup]="foodsForm" (ngSubmit)="saveFoods()">
+  <form [formGroup]="foodsForm" (ngSubmit)="test()">
     <div class="group-container">
       <div class="row justify-content-md-center">
         <mat-form-field class="col" appearance="outline">
@@ -163,7 +163,7 @@
             <mat-option
               *ngFor="let meal of meal_types"
               [value]="meal"
-              (click)="selectMeal(meal)"
+              (click)="test()"
             >
               {{ meal.name }}
             </mat-option>
@@ -171,31 +171,22 @@
         </mat-form-field>
       </div>
 
-      <ng-container formArrayName="meal_selections">
-        <div
-          *ngFor="
-            let meal of this.foodsForm.get('meal_selections').controls;
-            let i = index
-          "
-          [formGroupName]="i"
-        >
+      <ng-container>
+        <div>
           <div class="row justify-content-md-center">
             <mat-form-field class="col" appearance="outline">
-              <mat-label
-                >Search foods for {{ meal.get("meal_name").value }}</mat-label
-              >
+              <mat-label>Search foods for</mat-label>
               <div class="input-icon-container">
                 <input
                   matInput
                   placeholder="Search foods"
                   type="text"
-                  formControlName="food_search"
-                  (keyup)="onFoodSearch($event, i)"
+                  formControlName="test"
                 />
                 <button
                   mat-icon-button
                   class="remove-icon"
-                  (click)="removeMeal(meal.get('meal_name').value)"
+                  (click)="test()"
                   aria-label="Remove meal type"
                 >
                   <fa-icon [icon]="faXmark" size="2x"></fa-icon>
