@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
@@ -23,7 +23,8 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
     MatAutocompleteModule,
     MatOptionModule,
     MatInputModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule,
     
   ],
   templateUrl: './pick-foods.component.html',
@@ -43,7 +44,7 @@ export class PickFoodsComponent {
 
     // Meals
     meal_type: new FormControl(),
-    test: new FormControl()
+
 
   })
 
@@ -53,15 +54,18 @@ export class PickFoodsComponent {
 
 
   meal_types: any = [
-    {"id": 0, "name": "Breakfast"},
-    {"id": 1, "name": "Brunch"},
-    {"id": 2, "name": "Lunch"},
-    {"id": 3, "name": "Snack"},
-    {"id": 4, "name": "Dinner"},
-    {"id": 5, "name": "Supper"},
-    {"id": 6, "name": "Drink"},
-    {"id": 7, "name": "Else"},
+    {"id": 1, "name": "Breakfast"},
+    {"id": 2, "name": "Brunch"},
+    {"id": 3, "name": "Lunch"},
+    {"id": 4, "name": "Snack"},
+    {"id": 5, "name": "Dinner"},
+    {"id": 6, "name": "Supper"},
+    {"id": 7, "name": "Drink"},
+    {"id": 8, "name": "Else"},
   ]
+
+  selectedMeals: any[] = [];
+  meal_search_results: any = []
 
   constructor(
     private searchFoodsService: SearchFoodsService
@@ -110,13 +114,55 @@ export class PickFoodsComponent {
 
 
 
-  selectMeal() {
+  selectMeal(meal: any) {
 
+
+    if (!meal || !meal.id) {
+      console.error('Invalid meal object:', meal);
+      return;
+    }
+  
+    // Check if the meal is already selected
+    const mealExists = this.selectedMeals.some(
+      (selectedMeal) => selectedMeal.id === meal.id
+    );
+
+    if (!mealExists) {
+      this.selectedMeals.push({
+        meal_id: meal.id,
+        meal_name: meal.name,
+        search_food: ''
+      });
+    }
   }
 
-  removeMealFromList() {
-
+  removeMealFromList(meal: any) {
+    this.selectedMeals = this.selectedMeals.filter(selectedMeal => selectedMeal.meal_id !== meal.meal_id)
   }
+
+  onFoodSearch(event: Event, meal: any) {
+    const input = (event.target as HTMLInputElement).value;
+
+    // Perform a food search using the service
+    if (input) {
+      this.searchFoodsService.searchFoods(input).pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        catchError(error => {
+          console.error('Error fetching foods:', error);
+          return of([]);
+        })
+      ).subscribe(results => {
+        meal.search_results = results; // Update the meal with search results
+        
+        this.meal_search_results = results;
+        console.log(this.meal_search_results)
+        
+      });
+    }
+  }
+
+
 
 
 }
