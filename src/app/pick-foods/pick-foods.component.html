@@ -157,43 +157,48 @@
   <form [formGroup]="foodsForm" (ngSubmit)="test()">
     <div class="group-container">
       <div class="row justify-content-md-center">
-        <mat-form-field class="col" appearance="outline">
-          <mat-label for="mealTypes">Pick meal</mat-label>
-          <mat-select formControlName="meal_type">
-            <mat-option
-              *ngFor="let meal of meal_types"
-              [value]="meal"
-              (click)="test()"
-            >
+        <mat-form-field appearance="outline">
+          <mat-label>Select Meal</mat-label>
+          <mat-select (selectionChange)="selectMeal($event.value)">
+            <mat-option *ngFor="let meal of meal_types" [value]="meal">
               {{ meal.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
-      <ng-container>
-        <div>
-          <div class="row justify-content-md-center">
-            <mat-form-field class="col" appearance="outline">
-              <mat-label>Search foods for</mat-label>
-              <div class="input-icon-container">
-                <input
-                  matInput
-                  placeholder="Search foods"
-                  type="text"
-                  formControlName="test"
-                />
-                <button
-                  mat-icon-button
-                  class="remove-icon"
-                  (click)="test()"
-                  aria-label="Remove meal type"
+      <ng-container *ngFor="let meal of selectedMeals">
+        <div class="row justify-content-md-center mt-3">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Search foods for {{ meal.meal_name }}</mat-label>
+            <div class="input-icon-container">
+              <input
+                matInput
+                placeholder="Search foods"
+                [(ngModel)]="meal.search_food"
+                [ngModelOptions]="{ standalone: true }"
+                (keyup)="onFoodSearch($event, meal)"
+                [matAutocomplete]="auto"
+              />
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option
+                  *ngFor="let meal_food of meal_search_results"
+                  [value]="meal_food.name"
+                  (click)="pickFood(meal_food.id)"
                 >
-                  <fa-icon [icon]="faXmark" size="2x"></fa-icon>
-                </button>
-              </div>
-            </mat-form-field>
-          </div>
+                  {{ meal_food.name }}
+                </mat-option>
+              </mat-autocomplete>
+              <button
+                mat-icon-button
+                class="remove-icon"
+                (click)="removeMealFromList(meal)"
+                aria-label="Remove meal type"
+              >
+                <fa-icon [icon]="faXmark" size="2x"></fa-icon>
+              </button>
+            </div>
+          </mat-form-field>
         </div>
       </ng-container>
     </div>
