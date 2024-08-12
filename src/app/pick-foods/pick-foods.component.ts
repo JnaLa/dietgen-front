@@ -7,7 +7,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { catchError, debounceTime, distinctUntilChanged, Observable, of, switchMap } from 'rxjs';
 import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-import { SearchFoodsService } from '../../services/search-foods.service';
+import { SearchFoodsService } from '../services/search-foods.service';
 import { FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -47,6 +47,8 @@ export class PickFoodsComponent {
     // Selected meals
     meal_selections: new FormArray([]), // Dynamic
 
+    foods_per_meal: new FormArray([]),
+
     test: new FormControl()
 
   })
@@ -54,6 +56,7 @@ export class PickFoodsComponent {
   filteredFoods!: Observable<any[]>;
   foodsArray: any = []
   dietFoodList: any = []
+
 
   meal_types: any = [
     {"id": 0, "name": "Breakfast"},
@@ -71,30 +74,45 @@ export class PickFoodsComponent {
   ) {}
 
 
-
-
-
   ngOnInit(): void {
+    this.initializeMealSelections();
+    this.filterFoodsFromInput();
+  }
+
+
+  // Initialize FormArray with FormGroup instances
+  initializeMealSelections() {
+    const mealSelectionsArray = this.meal_types.map((meal: any) =>
+      new FormGroup({
+        meal_id: new FormControl(meal.id),
+        meal_name: new FormControl(meal.name),
+      })
+    );
+    this.foodsForm.setControl('meal_selections', new FormArray(mealSelectionsArray));
+
+
+  }
+
+  // Setup food filtering
+  filterFoodsFromInput() {
     this.filteredFoods = this.foodsForm.get('food_name')!.valueChanges.pipe(
-      debounceTime(300), // Wait 300ms after the last keystroke before making a request
-      distinctUntilChanged(), // Only make a request if the value changed
-      switchMap(value => {
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((value) => {
         if (value) {
           return this.searchFoodsService.searchFoods(value).pipe(
-            catchError(error => {
+            catchError((error) => {
               console.error(error);
-              return of([]); // Return an empty array on error
+              return of([]);
             }),
-            switchMap(response => {                
-              this.foodsArray = response
+            switchMap((response) => {
+              this.foodsArray = response;
               return of(this.foodsArray);
             })
-            
           );
         } else {
-          return of([]); // Return an empty array if the input is empty
+          return of([]);
         }
-        
       })
     );
   }
@@ -169,6 +187,29 @@ export class PickFoodsComponent {
       meal_selections.removeAt(index);
     }
   }
+
+  onFoodSearch(event: Event, index: number) {
+    const input = (event.target as HTMLInputElement).value;
+    const meal_selections = this.foodsForm.get('meal_selections') as FormArray;
+    const currentMeal = meal_selections.at(index) as FormGroup;
+
+    // Perform a food search using the service
+    if (input) {
+      this.searchFoodsService.searchFoods(input).pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        catchError(error => {
+          console.error('Error fetching foods:', error);
+          return of([]);
+        })
+      ).subscribe(results => {
+        currentMeal.get('foods')?.setValue(results);
+        console.log('Search results for meal', currentMeal.get('meal_name')?.value, ':', results);
+      });
+    }
+  }
+
+
 
 
 
