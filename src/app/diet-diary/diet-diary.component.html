@@ -1,6 +1,10 @@
-<!-- <form [formGroup]="dietForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="dietForm" (ngSubmit)="onSubmit()">
   <div formArrayName="meals">
-    <div *ngFor="let meal of meals.controls; let i = index" [formGroupName]="i" class="meal-container">
+    <div
+      *ngFor="let meal of meals.controls; let i = index"
+      [formGroupName]="i"
+      class="meal-container"
+    >
       <div class="meal-header">
         <label for="meal-name-{{ i }}"></label>
         <input
@@ -9,7 +13,12 @@
           formControlName="name"
           class="input-field"
         />
-        <button type="button" (click)="removeMeal(i)" class="remove-button" aria-label="Remove meal">
+        <button
+          type="button"
+          (click)="removeMeal(i)"
+          class="remove-button"
+          aria-label="Remove meal"
+        >
           Remove
         </button>
       </div>
@@ -24,7 +33,10 @@
           class="input-field"
         />
       </div>
-      <div *ngIf="meal.get('searchResults')?.value?.length > 0" class="search-results">
+      <div
+        *ngIf="meal.get('searchResults')?.value?.length > 0"
+        class="search-results"
+      >
         <ul>
           <li
             *ngFor="let food of meal.get('searchResults')?.value"
@@ -36,7 +48,12 @@
         </ul>
       </div>
       <div formArrayName="selected_foods" class="selected-foods">
-        <div *ngFor="let food of getSelectedFoodControls(i).controls; let j = index">
+        <div
+          *ngFor="
+            let food of getSelectedFoodControls(i).controls;
+            let j = index
+          "
+        >
           <table class="styled-table">
             <thead>
               <tr>
@@ -54,7 +71,11 @@
                 <td>{{ food.value.nutrients.protein }}</td>
                 <td>{{ food.value.nutrients.fat }}</td>
                 <td>
-                  <button type="button" (click)="removeSelectedFood(i, j)" class="remove-button">
+                  <button
+                    type="button"
+                    (click)="removeSelectedFood(i, j)"
+                    class="remove-button"
+                  >
                     Remove
                   </button>
                 </td>
@@ -67,4 +88,4 @@
   </div>
   <button (click)="addMeal()">Add Meal</button>
   <button (click)="onSubmit()">Submit</button>
-</form> -->
+</form>
