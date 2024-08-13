@@ -37,14 +37,14 @@ export class DietDiaryComponent implements OnInit {
     const mealForm = this.fb.group({
       name: ['', Validators.required],
       food_search: [''],
-      selected_food: this.fb.array([]),
+      selected_foods: this.fb.array([]),
       searchResults: [[]]
     });
     this.meals.push(mealForm);
     console.log('Meal added:', mealForm);
   }
   getSelectedFoodControls(mealIndex: number): FormArray {
-    return this.meals.at(mealIndex).get('selected_food') as FormArray;
+    return this.meals.at(mealIndex).get('selected_foods') as FormArray;
   }
   onFoodSearch(event: any, index: number): void {
     const query = event.target.value;
