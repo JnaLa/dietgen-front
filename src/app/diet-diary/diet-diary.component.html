@@ -24,10 +24,10 @@
           class="input-field"
         />
       </div>
-      <div *ngIf="meal.get('searchResults').value.length > 0" class="search-results">
+      <div *ngIf="meal.get('searchResults')?.value?.length > 0" class="search-results">
         <ul>
           <li
-            *ngFor="let food of meal.get('searchResults').value"
+            *ngFor="let food of meal.get('searchResults')?.value"
             (click)="selectFood(food, i)"
             class="search-result-item"
           >
@@ -36,7 +36,7 @@
         </ul>
       </div>
       <div formArrayName="selected_foods" class="selected-foods">
-        <div *ngFor="let food of meal.get('selected_food').controls; let j = index">
+        <div *ngFor="let food of getSelectedFoodControls(i).controls; let j = index">
           <table class="styled-table">
             <thead>
               <tr>
