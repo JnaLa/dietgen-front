@@ -1,1 +1,105 @@
-<div class="container">toimi</div>
+<div class="container d-flex justify-content-center wh-100 mt-2 mb-2">
+  <form [formGroup]="userInfoForm" (ngSubmit)="test()">
+    <div class="group-container">
+      <div class="row justify-content-md-center">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Insert nickname</mat-label>
+          <input
+            matInput
+            placeholder="Insert nickname"
+            type="text"
+            formControlName="nickName"
+          />
+          <mat-error *ngIf="userInfoForm.get('nickName')?.invalid">
+            Field is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row justify-content-md-center">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Insert age</mat-label>
+          <input
+            matInput
+            placeholder="Insert age"
+            type="number"
+            formControlName="age"
+          />
+          <mat-error *ngIf="userInfoForm.get('age')?.invalid">
+            Field is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Choose gender</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option *ngFor="let gender of genders" [value]="gender">{{
+              gender
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="userInfoForm.get('gender')?.invalid">
+            Field is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="row justify-content-md-center">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Insert height in CM</mat-label>
+          <input
+            matInput
+            placeholder="Insert height"
+            type="number"
+            formControlName="height"
+          />
+          <mat-error *ngIf="userInfoForm.get('height')?.invalid">
+            Field is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Insert weight in KG</mat-label>
+          <input
+            matInput
+            placeholder="Insert weight"
+            type="number"
+            formControlName="weight"
+          />
+          <mat-error *ngIf="userInfoForm.get('weight')?.invalid">
+            Field is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <button class="btn btn-primary w-100 mt-1" type="submit">Submit</button>
+
+    <!-- <div class="table-container">
+      <h3 class="header-3">Picked foods / 100 grams</h3>
+      <table class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th class="text-center">Food Name</th>
+            <th class="text-center">Energy(Kcal)</th>
+            <th class="text-center">Carbs</th>
+            <th class="text-center">Sugar</th>
+            <th class="text-center">Fat</th>
+            <th class="text-center">Fat(Saturated)</th>
+            <th class="text-center">Protein</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </form>
+</div> -->
+  </form>
+</div>
