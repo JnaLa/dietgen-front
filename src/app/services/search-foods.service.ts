@@ -11,6 +11,11 @@ export class SearchFoodsService {
     private http: HttpClient
   ) { }
 
+
+  fetchMealTypes(): Observable<any> {
+    return this.http.get<any>('http://127.0.0.1:5000/mealtypes').pipe(map((response:any) => response));
+  }
+
   searchFoods(query: any): Observable<any> {
     let body = {
       data: query

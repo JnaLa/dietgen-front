@@ -76,6 +76,7 @@ export class PickFoodsComponent {
     this.filterFoodsFromInput();
   }
 
+
   test() {
 
   }
@@ -115,8 +116,6 @@ export class PickFoodsComponent {
 
 
   selectMeal(meal: any) {
-
-
     if (!meal || !meal.id) {
       console.error('Invalid meal object:', meal);
       return;
@@ -161,8 +160,6 @@ export class PickFoodsComponent {
       });
     }
   }
-
-
 
 
 }
