@@ -13,6 +13,7 @@ import { of } from 'rxjs';
   styleUrl: './diet-diary.component.css'
 })
 export class DietDiaryComponent implements OnInit {
+  
   dietForm: FormGroup;
   searchQuery: string = '';
   searchResults: any[] = [];
@@ -25,7 +26,7 @@ export class DietDiaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addMeal(); // Initialize with one meal
+    //this.addMeal(); // Initialize with one meal
   }
 
   get meals(): FormArray {
@@ -41,6 +42,9 @@ export class DietDiaryComponent implements OnInit {
     });
     this.meals.push(mealForm);
     console.log('Meal added:', mealForm);
+  }
+  getSelectedFoodControls(mealIndex: number): FormArray {
+    return this.meals.at(mealIndex).get('selected_food') as FormArray;
   }
   onFoodSearch(event: any, index: number): void {
     const query = event.target.value;
