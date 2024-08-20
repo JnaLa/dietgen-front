@@ -69,7 +69,7 @@ export class DietDiaryComponent implements OnInit {
     console.log('Meal removed at index:', index);
   }
   selectFood(food: any, index: number): void {
-    const selectedFoods = this.meals.at(index).get('selected_food') as FormArray;
+    const selectedFoods = this.meals.at(index).get('selected_foods') as FormArray;
 
     console.log('Selecting food:', food, 'for meal index:', index);
 
@@ -96,7 +96,7 @@ export class DietDiaryComponent implements OnInit {
     });
   }
   removeSelectedFood(index: number, foodIndex: number) {
-    const selectedFoods = this.meals.at(index).get('selected_food') as FormArray;
+    const selectedFoods = this.meals.at(index).get('selected_foods') as FormArray;
     selectedFoods.removeAt(foodIndex);
     console.log('Selected food removed at index:', foodIndex, 'for meal index:', index);
   }
