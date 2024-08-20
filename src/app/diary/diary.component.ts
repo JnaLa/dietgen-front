@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { catchError, debounceTime, distinctUntilChanged, Observable, of, switchMap } from 'rxjs';
 import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { SearchFoodsService } from '../services/search-foods.service';
+import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 
 @Component({
@@ -21,6 +21,7 @@ import { SearchFoodsService } from '../services/search-foods.service';
     MatAutocompleteModule,
     MatOptionModule,
     MatInputModule,
+
     
   ],
   templateUrl: './diary.component.html',
@@ -49,24 +50,33 @@ export class DiaryComponent {
   })
   
   constructor(
-    private searchFoodsService: SearchFoodsService
+    private searchFoodsService: SearchFoodsService,
+    public dialog: MatDialog
   ) {}
+
+  @Inject(MAT_DIALOG_DATA) public dialogData: any;
 
   mealTypes: any = []
   genders: any = ["Male", "Female", "Other"]
 
 
   ngOnInit(): void {
+    this.fetchMealTypes();
+  }
+
+  fetchMealTypes() {
     this.searchFoodsService.fetchMealTypes().subscribe(r => {
       this.mealTypes = r
     }) 
   }
+    
 
-  selectMeal(meal: any) {
-    console.log(meal)
-  }
 
-  test() {
+  openMealsDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string,
+    
+  ) {
     let formData = this.userInfoForm.getRawValue();
     console.log(formData)
   }

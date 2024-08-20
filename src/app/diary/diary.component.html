@@ -1,5 +1,8 @@
 <div class="container d-flex justify-content-center wh-100 mt-2 mb-2">
-  <form [formGroup]="userInfoForm" (ngSubmit)="test()">
+  <form
+    [formGroup]="userInfoForm"
+    (ngSubmit)="openMealsDialog('500ms', '1000ms')"
+  >
     <div class="group-container">
       <div class="row justify-content-md-center">
         <mat-form-field class="col" appearance="outline">

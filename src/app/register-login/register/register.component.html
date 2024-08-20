@@ -1,0 +1,51 @@
+<div class="container">
+  <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+    <div class="row justify-content-md-center">
+      <h3 class="h3 text-center">Please register</h3>
+    </div>
+    <div class="row justify-content-md-center">
+      <mat-form-field class="col col-md-5" appearance="outline">
+        <mat-label>Username</mat-label>
+        <input
+          matInput
+          placeholder="Enter username"
+          type="text"
+          formControlName="username"
+          class="form-control"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="row justify-content-md-center">
+      <mat-form-field class="col col-md-5" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          placeholder="Enter email"
+          type="text"
+          formControlName="email"
+          class="form-control"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="row justify-content-md-center">
+      <mat-form-field class="col col-md-5" appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          placeholder="Enter password"
+          type="password"
+          formControlName="password"
+          class="form-control"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="row justify-content-md-center">
+      <button class="btn btn-outline-success col-md-3 mx-auto" type="submit">
+        Register
+      </button>
+    </div>
+  </form>
+</div>
