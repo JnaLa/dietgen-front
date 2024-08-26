@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col">
+      <h3>{{ data.header }} {{ remainingTime }} seconds</h3>
+      <h4>{{ data.message }}</h4>
+      <button
+        class="btn btn-outline-success"
+        mat-raised-button
+        color="primary"
+        (click)="onYesClick()"
+        tabindex="1"
+      >
+        {{ data.confirmButtonText }}
+      </button>
+      <button
+        class="btn btn-outline-danger"
+        mat-raised-button
+        (click)="onNoClick()"
+        tabindex="-1"
+      >
+        {{ data.cancelButtonText }}
+      </button>
+    </div>
+  </div>
+</div>
