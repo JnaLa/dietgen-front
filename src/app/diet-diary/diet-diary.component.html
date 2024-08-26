@@ -1,4 +1,5 @@
 <form [formGroup]="dietForm" (ngSubmit)="onSubmit()">
+  <a routerLink="/login">Login</a>
   <div formArrayName="meals">
     <div
       *ngFor="let meal of meals.controls; let i = index"

@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { SearchFoodsService } from '../services/search-foods.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-diet-diary',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './diet-diary.component.html',
   styleUrl: './diet-diary.component.css'
 })
