@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RegisterLoginService } from '../services/register-login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-expiration-dialog',
@@ -18,7 +19,8 @@ export class ExpirationDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<ExpirationDialogComponent>,
-    private authService: RegisterLoginService
+    private authService: RegisterLoginService,
+    private router: Router
   ) {
     dialogRef.disableClose = true;
     if (data) {
@@ -52,6 +54,7 @@ export class ExpirationDialogComponent {
   onNoClick(): void {
     clearInterval(this.timer);
     this.dialogRef.close("No");
+    this.router.navigate(['/'])
   }
 
 

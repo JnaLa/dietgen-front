@@ -38,7 +38,7 @@ export class RegisterLoginService {
   logOut() {
     localStorage.clear();
     this.dialog.closeAll();
-    this.router.navigate(["/login"]);
+    // this.router.navigate(["/login"]);
   }
 
   getExpiration() {

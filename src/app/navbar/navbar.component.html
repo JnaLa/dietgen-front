@@ -1,18 +1,44 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="navbar-brand">
-    <a routerLink="/">DietGen</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">DietGen</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item" *ngIf="this.logoutService.isLoggedIn()">
+          <a class="nav-link" routerLink="diary" routerLinkActive="active"
+            >Diary</a
+          >
+        </li>
+        <li class="nav-item" *ngIf="this.logoutService.isLoggedOut()">
+          <a class="nav-link" routerLink="register" routerLinkActive="active"
+            >Register</a
+          >
+        </li>
+        <li class="nav-item" *ngIf="this.logoutService.isLoggedOut()">
+          <a class="nav-link" routerLink="login" routerLinkActive="active"
+            >Login</a
+          >
+        </li>
+        <li class="nav-item" *ngIf="this.logoutService.isLoggedIn()">
+          <a
+            class="nav-link"
+            routerLink="login"
+            routerLinkActive="active"
+            (click)="this.logoutService.logOut()"
+            >Logout</a
+          >
+        </li>
+      </ul>
+    </div>
   </div>
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="register" routerLinkActive="active"
-        >Register</a
-      >
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="login" routerLinkActive="active">Login</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="diary" routerLinkActive="active">Diary</a>
-    </li>
-  </ul>
 </nav>

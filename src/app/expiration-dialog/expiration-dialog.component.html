@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <div class="row justify-content-md-center">
     <div class="col">
       <h3>{{ data.header }} {{ remainingTime }} seconds</h3>
@@ -20,6 +20,37 @@
       >
         {{ data.cancelButtonText }}
       </button>
+    </div>
+  </div>
+</div> -->
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    <div class="col text-center p-4 bg-dark bg-opacity-75 rounded-3">
+      <h3 mat-dialog-title class="text-white mb-4 fs-1">
+        {{ data.header }}
+        <span class="text-warning">{{ remainingTime }}</span> seconds
+      </h3>
+      <h3 class="text-white mb-5 fs-4">
+        {{ data.message }}
+      </h3>
+      <div class="d-flex justify-content-center">
+        <button
+          class="btn btn-outline-success mx-3 px-4 py-2 fs-5 rounded-pill"
+          (click)="onYesClick()"
+          tabindex="1"
+          type="button"
+        >
+          {{ data.confirmButtonText }}
+        </button>
+        <button
+          class="btn btn-outline-danger mx-3 px-4 py-2 fs-5 rounded-pill"
+          (click)="onNoClick()"
+          tabindex="-1"
+          type="button"
+        >
+          {{ data.cancelButtonText }}
+        </button>
+      </div>
     </div>
   </div>
 </div>
