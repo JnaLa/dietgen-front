@@ -31,10 +31,13 @@ export class RegisterLoginService {
     localStorage.setItem("id_token", authResult.access_token);
     localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
     localStorage.setItem("is_admin", authResult.is_admin);
+
+    this.startExpirationTimer();
   }
 
   logOut() {
     localStorage.clear();
+    this.dialog.closeAll();
     this.router.navigate(["/login"]);
   }
 
@@ -57,7 +60,7 @@ export class RegisterLoginService {
 
     setTimeout(() => {
       this.openExpirationDialog();
-    }, timeUntilExpiration)
+    }, timeUntilExpiration);
   }
 
   openExpirationDialog() {
