@@ -19,8 +19,7 @@ export class NavbarComponent {
     public logoutService: RegisterLoginService
   ) 
   {
-    console.log(this.logoutService.isLoggedIn())
-    console.log(this.logoutService.isLoggedOut())
+    
   }
 
 }
