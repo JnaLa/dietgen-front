@@ -40,7 +40,7 @@ export class LoginComponent {
       
       next: (v) => this.loginService.setSession(v),
       error: (e) => this.showError = true,
-      complete: () => this.router.navigate(['/diary'])
+      complete: () => this.router.navigate(['/profile'])
     })
   }
 

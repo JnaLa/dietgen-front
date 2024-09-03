@@ -8,10 +8,11 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { SearchFoodsService } from '../services/search-foods.service';
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ProfileService } from '../services/profile.service';
 
 
 @Component({
-  selector: 'app-diary',
+  selector: 'app-profiles',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -24,34 +25,36 @@ import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
     
   ],
-  templateUrl: './diary.component.html',
-  styleUrl: './diary.component.css'
+  templateUrl: './profiles.component.html',
+  styleUrl: './profiles.component.css'
 })
 
 
-export class DiaryComponent {
+export class ProfilesComponent {
 
-  userInfoForm = new FormGroup({
+  profileForm = new FormGroup({
 
     // User info
     nickName: new FormControl('', Validators.required),
-    age: new FormControl('', Validators.required),
+    age: new FormControl(null, Validators.required),
     gender: new FormControl('', Validators.required),
-    height: new FormControl('', Validators.required),
-    weight: new FormControl('', Validators.required),
+    height: new FormControl(null, Validators.required),
+    weight: new FormControl(null, Validators.required),
+    bio: new FormControl('')
 
     // Goals
-    targetWeight: new FormControl('', Validators.required),
+    // targetWeight: new FormControl('', Validators.required),
 
-    desiredKcal: new FormControl(),
-    desiredProtein: new FormControl(),
-    desiredCarbs: new FormControl(),
-    desiredFats: new FormControl(),
+    // desiredKcal: new FormControl(),
+    // desiredProtein: new FormControl(),
+    // desiredCarbs: new FormControl(),
+    // desiredFats: new FormControl(),
   })
   
   constructor(
     private searchFoodsService: SearchFoodsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private profileService: ProfileService
   ) {}
 
   @Inject(MAT_DIALOG_DATA) public dialogData: any;
@@ -67,17 +70,39 @@ export class DiaryComponent {
   fetchMealTypes() {
     this.searchFoodsService.fetchMealTypes().subscribe(r => {
       this.mealTypes = r
+      console.log(r)
     }) 
   }
+
+  addProfileInfo() {
+    let profileData = this.profileForm.getRawValue()
+
+    this.profileService.addProfileData(profileData).subscribe(r => {
+      console.log(r)
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
-
-
   openMealsDialog(
     enterAnimationDuration: string,
     exitAnimationDuration: string,
     
   ) {
-    let formData = this.userInfoForm.getRawValue();
+    let formData = this.profileForm.getRawValue();
     console.log(formData)
   }
 

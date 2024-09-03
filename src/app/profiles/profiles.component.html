@@ -1,8 +1,7 @@
-<div class="container d-flex justify-content-center wh-100 mt-2 mb-2">
-  <form
-    [formGroup]="userInfoForm"
-    (ngSubmit)="openMealsDialog('500ms', '1000ms')"
-  >
+<div
+  class="container d-flex justify-content-center wh-100 border border-primary rounded mt-2"
+>
+  <form [formGroup]="profileForm" (ngSubmit)="addProfileInfo()" class="m-3">
     <div class="group-container">
       <div class="row justify-content-md-center">
         <mat-form-field class="col" appearance="outline">
@@ -13,7 +12,7 @@
             type="text"
             formControlName="nickName"
           />
-          <mat-error *ngIf="userInfoForm.get('nickName')?.invalid">
+          <mat-error *ngIf="profileForm.get('nickName')?.invalid">
             Field is required
           </mat-error>
         </mat-form-field>
@@ -27,7 +26,7 @@
             type="number"
             formControlName="age"
           />
-          <mat-error *ngIf="userInfoForm.get('age')?.invalid">
+          <mat-error *ngIf="profileForm.get('age')?.invalid">
             Field is required
           </mat-error>
         </mat-form-field>
@@ -39,7 +38,7 @@
               gender
             }}</mat-option>
           </mat-select>
-          <mat-error *ngIf="userInfoForm.get('gender')?.invalid">
+          <mat-error *ngIf="profileForm.get('gender')?.invalid">
             Field is required
           </mat-error>
         </mat-form-field>
@@ -54,7 +53,7 @@
             type="number"
             formControlName="height"
           />
-          <mat-error *ngIf="userInfoForm.get('height')?.invalid">
+          <mat-error *ngIf="profileForm.get('height')?.invalid">
             Field is required
           </mat-error>
         </mat-form-field>
@@ -67,9 +66,22 @@
             type="number"
             formControlName="weight"
           />
-          <mat-error *ngIf="userInfoForm.get('weight')?.invalid">
+          <mat-error *ngIf="profileForm.get('weight')?.invalid">
             Field is required
           </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="row justify-content-md-center">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Insert profile bio</mat-label>
+          <textarea
+            matInput
+            placeholder="Insert profile bio"
+            formControlName="bio"
+            rows="5"
+          >
+          </textarea>
         </mat-form-field>
       </div>
     </div>
