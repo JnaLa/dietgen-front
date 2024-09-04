@@ -31,6 +31,7 @@ export class RegisterLoginService {
     localStorage.setItem("id_token", authResult.access_token);
     localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
     localStorage.setItem("is_admin", authResult.is_admin);
+    localStorage.setItem("user_public_id", authResult.user_public_id);
 
     this.startExpirationTimer();
   }

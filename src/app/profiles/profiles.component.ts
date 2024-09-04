@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { SearchFoodsService } from '../services/search-foods.service';
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ProfileService } from '../services/profile.service';
+import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
 
 
 @Component({
@@ -65,6 +66,7 @@ export class ProfilesComponent {
 
   ngOnInit(): void {
     this.fetchMealTypes();
+    this.test()
   }
 
   fetchMealTypes() {
@@ -75,25 +77,30 @@ export class ProfilesComponent {
   }
 
   addProfileInfo() {
-    let profileData = this.profileForm.getRawValue()
+    let formData = this.profileForm.getRawValue();
+    let user_public_id = localStorage.getItem('user_public_id')?.valueOf()
+
+    let profileData = {
+      nickname: formData.nickName,
+      age: formData.age,
+      gender: formData.gender,
+      height: formData.height,
+      weight: formData.weight,
+      bio: formData.bio,
+      user_public_id: user_public_id
+    }
 
     this.profileService.addProfileData(profileData).subscribe(r => {
       console.log(r)
     })
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
+  test() {
+    let user_public_id = localStorage.getItem('user_public_id')?.valueOf()
+    this.profileService.returnUserProfile(user_public_id).subscribe(r => {
+      console.log(r)
+    })
+  }
 
 
     
